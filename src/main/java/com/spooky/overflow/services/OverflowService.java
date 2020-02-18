@@ -56,13 +56,19 @@ public class OverflowService {
 			return null;
 		}
 	}
-	public Tag createTag(Tag t) {
-		return tagRepository.save(t);
+	public Tag createTag(String t) {
+		Tag tag = new Tag(t);
+		return tagRepository.save(tag);
 	}
-	public Answer createAnswer(Answer a) {
-		return answerRepository.save(a);
+	public Answer createAnswer(String a, Question quest) {
+		Answer answer = new Answer(a);
+		answer.setQuestion(quest);
+		return answerRepository.save(answer);
 	}
-	public Question createQuestion(Question q) {
-		return questionRepository.save(q);
+	public Question createQuestion(String q, String t) {
+		Question question = new Question(q);
+		Tag tag = new Tag(t);
+		question.getTags().add(tag);
+		return questionRepository.save(question);
 	}
 }

@@ -41,58 +41,38 @@ public class OverflowController {
 	}
 	@GetMapping("/overflow/question")
 	public String viewQuestions(Model model) {
-	List<Question>allQuestions = overflowService.allQuestions();
-	List<Tag>allTags = overflowService.allTags();
-	model.addAttribute("question", allQuestions);
-	model.addAttribute("tag", allTags);
-	return "/overflow/questions.jsp";
+		List<Question>allQuestions = overflowService.allQuestions();
+		List<Tag>allTags = overflowService.allTags();
+		model.addAttribute("question", allQuestions);
+		model.addAttribute("tag", allTags);
+		return "/overflow/questions.jsp";
 	}
 	@GetMapping("/overflow/question/{id}")
 	public String view(@PathVariable("id") Long id, Model model) {
+		System.out.println("INSIDE THE RENDER ANSWER");
 		Question question = overflowService.findQuestion(id);
-		List<Tag> tags = overflowService.allTags();
-		List<Answer> answers = overflowService.allAnswers();
-		model.addAttribute("tag", tags);
-		model.addAttribute("answer", answers);
 		model.addAttribute("question", question);
 		return "/overflow/viewQuestion.jsp";
 	}
+	@PostMapping("/overflow/question/{id}")
+	public String add(@PathVariable("id") Long id,@RequestParam("answer")String a ) {
+		System.out.println("INSIDE THE CREATE ANSWER");
+		Question question = overflowService.findQuestion(id);
+		overflowService.createAnswer(a, question);
+		return "redirect:/overflow/question/" + id;
+	}
 	@GetMapping("/overflow/question/new")
-	public String newQuestion(@ModelAttribute("questions") Question q) {
+	public String newQuestion() {
 		return "/overflow/newQuestion.jsp";
 	}
-	@PostMapping(value="/overflow/question/new")
-	public String createQuestion(@Valid @ModelAttribute("questions") Question q,@RequestParam("t") Tag t, BindingResult result, Model model) {
-		if(result.hasErrors()) {
+	@PostMapping("/overflow/question/new")
+	public String createQuestion(@RequestParam("question")String q,@RequestParam("tag")String t) {
+		//if(result.hasErrors()) {
 			// is unique logic?
-			return "/overflow/newQuestion.jsp";
-		} else {
-			Question createdquestion = overflowService.createQuestion(q);
-			createdquestion.getTags().add(t);
-			questionRepository.save(createdquestion);
+			//return "/overflow/newQuestion.jsp";
+		//} else {
+			Tag createdTag = overflowService.createTag(t);
+			overflowService.createQuestion(q, createdTag);
 			return "redirect:/overflow/questions";
 		}
 	}
-	@GetMapping("/overflow/addquestion/{id}")
-	public String show(@PathVariable("id") Long id) {
-		return "/overflow/question/{id}";
-	}
-	@PostMapping(value="/overflow/addquestion/{id}")
-	public String add(@PathVariable("id") Long id,Answer a ) {
-		Question question = overflowService.findQuestion(id);
-		Answer createdanswer = overflowService.createAnswer(a);
-		question.getAnswers().add(createdanswer);
-		questionRepository.save(question);
-		return "/overflow/question/{id}";
-	}
-	public AnswerRepository getAnswerRepository() {
-		return answerRepository;
-	}
-	public TagRepository getTagRepository() {
-		return tagRepository;
-	}
-	public QuestionRepository getQuestionRepository() {
-		return questionRepository;
-	}
-
-}

@@ -9,19 +9,24 @@
 </head>
 <body>
 <h1><c:out value="${question.question}"/></h1>
+<h1><c:out value="${question.id}"/></h1>
+
 <c:forEach items="${question.tags}" var="tag">
 <h3>Tags: <c:out value="${tag.subject}"/></h3>
 </c:forEach>
-<c:forEach items="${question.answers}" var="answer">
-<p><c:out value="${answer.answer}"/></p>
+
+<c:forEach items="${question.answers}" var="an">
+	<p>
+		<c:out value="${an.answer}"/>
+	</p>
 </c:forEach>
 <h4>Add your answer:</h4>
-<form action="/overflow/addquestion/${question.id}" method="POST">
-    <p>
-        <label>Answer:</label>
-        <input>
-    </p>
-    <button type="submit">Add</button>
-</form>
+	<form action="/overflow/question/${question.id}" method="post">
+	    <p>
+	        <label>Answer:</label>
+	        <input name="answer">
+	    </p>
+	    <button type="submit">Add</button>
+	</form>
 </body>
 </html>

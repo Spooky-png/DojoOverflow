@@ -45,6 +45,9 @@ public class Question {
 	 private List<Answer> answers;
 	
 	public Question() {
+	}public Question(String question, Tag tag) {
+		this.question = question;
+		this.tags = tags;
 	}
 	public Question(String question) {
 		this.setQuestion(question);

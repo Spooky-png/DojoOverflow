@@ -1,4 +1,4 @@
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%> 
+
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html>
@@ -9,18 +9,16 @@
 </head>
 <body>
 <h1>What is your question?</h1>
-<form:form action="/overflow/question/new" type="POST" modelAttribute="questions">
+<form action="/overflow/question/new" method="post">
     <p>
-        <form:label path="question">Question:</form:label>
-        <form:errors path="question"/>
-        <form:input path="question"/>
-    </p>   
+        <label>Question:</label>
+        <input name="question"/>
+    </p>
     <p>
-        <form:label path="tags">Tags:</form:label>
-        <form:errors path="tags"/>
-        <form:input name="t" path="tags"/>
+        <label>Tags:</label>
+        <input name="tag"/>
     </p>
     <button type="submit">Submit</button>
-</form:form>
+</form>
 </body>
 </html>

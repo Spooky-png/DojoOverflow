@@ -34,6 +34,9 @@ public class Answer {
 	
 	public Answer() {
 	}
+	public Answer(String answer) {
+		this.answer = answer;
+	}
 	public Answer(String answer, Question question) {
 		this.setAnswer(answer);
 		this.setQuestion(question);

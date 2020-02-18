@@ -42,6 +42,9 @@ public class Tag {
 	
 	public Tag() {
 	}
+	public Tag(String tag) {
+		this.subject = tag;
+	}
 	public Tag(String subject, List<Question> questions) {
 		this.setSubject(subject);
 		this.setQuestions(questions);
